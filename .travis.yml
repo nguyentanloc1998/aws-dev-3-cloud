@@ -1,7 +1,7 @@
 language: node_js
 
 node_js:
-  - 12
+  - 20
 
 services:
   - docker
@@ -12,7 +12,7 @@ env:
     - UDAGRAM_API_USER_IMAGE_NAME=udagram-api-user
     - UDAGRAM_FRONTEND_IMAGE_NAME=udagram-frontend
     - UDAGRAM_REVERSEPROXY_IMAGE_NAME=reverseproxy
-    - TAG=v1  # Change this to the appropriate tag for the master branch
+    - TAG=latest  # Change this to the appropriate tag for the master branch
 
 script:
   - docker-compose -f ./docker-compose-build.yaml build --parallel
