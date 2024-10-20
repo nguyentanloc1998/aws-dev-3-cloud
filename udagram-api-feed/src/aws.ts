@@ -1,35 +1,35 @@
-import { S3Client, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { config } from "./config/config";
+import AWS = require('aws-sdk');
+import {config} from './config/config';
 
-// Configure the S3 client
-const s3 = new S3Client({
+
+// Configure AWS
+const credentials = new AWS.SharedIniFileCredentials({profile: config.aws_profile});
+AWS.config.credentials = credentials;
+
+export const s3 = new AWS.S3({
+  signatureVersion: 'v4',
   region: config.aws_region,
-  credentials: {
-    profile: config.aws_profile,
-  },
+  params: {Bucket: config.aws_media_bucket},
 });
 
 // Generates an AWS signed URL for retrieving objects
-export async function getGetSignedUrl(key: string): Promise<string> {
-  const command = new GetObjectCommand({
-    Bucket: config.aws_media_bucket,
-    Key: key,
-  });
-
+export function getGetSignedUrl( key: string ): string {
   const signedUrlExpireSeconds = 60 * 5;
 
-  return await getSignedUrl(s3, command, { expiresIn: signedUrlExpireSeconds });
+  return s3.getSignedUrl('getObject', {
+    Bucket: config.aws_media_bucket,
+    Key: key,
+    Expires: signedUrlExpireSeconds,
+  });
 }
 
 // Generates an AWS signed URL for uploading objects
-export async function getPutSignedUrl(key: string): Promise<string> {
-  const command = new PutObjectCommand({
-    Bucket: config.aws_media_bucket,
-    Key: key,
-  });
-
+export function getPutSignedUrl( key: string ): string {
   const signedUrlExpireSeconds = 60 * 5;
 
-  return await getSignedUrl(s3, command, { expiresIn: signedUrlExpireSeconds });
+  return s3.getSignedUrl('putObject', {
+    Bucket: config.aws_media_bucket,
+    Key: key,
+    Expires: signedUrlExpireSeconds,
+  });
 }
