@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: backend-user
-          image: docker.io/tonyloc1998/udagram-api-user:latest
+          image: tonyloc1998/udagram-api-user:latest
           imagePullPolicy: Always
           resources:
             requests:
@@ -83,7 +83,6 @@ spec:
         - name: aws-secret
           secret:
             secretName: aws-secret
-
 
 ---
 apiVersion: v1

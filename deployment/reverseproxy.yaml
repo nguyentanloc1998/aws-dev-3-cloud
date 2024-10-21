@@ -5,7 +5,7 @@ metadata:
   labels:
     app: udagram-reverseproxy
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: reverseproxy
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: reverseproxy
-          image: docker.io/tonyloc1998/reverseproxy:latest
+          image: tonyloc1998/reverseproxy:latest
           ports:
             - containerPort: 8080
           env:
