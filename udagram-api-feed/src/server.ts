@@ -14,9 +14,6 @@ import {V0_FEED_MODELS} from './controllers/v0/model.index';
   await sequelize.addModels(V0_FEED_MODELS);
 
   console.info("Initialize database connection...");
-  console.info(config.username);
-  console.info(config.password);
-  console.info(config.database);
 
   await sequelize.sync();
 
